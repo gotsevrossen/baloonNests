@@ -235,20 +235,12 @@
   ]
 }
 </script>
-<!-- Self-hosted fonts: place woff2 files in ./fonts/
-     Source: https://fonts.google.com — Cormorant Garamond (300,400,500 normal+italic), Tenor Sans (400), DM Sans (300,400,500 normal; 300 italic) -->
-<style>
-  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-300.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
-  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-300-italic.woff2') format('woff2'); font-weight:300; font-style:italic; font-display:swap; }
-  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
-  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-400-italic.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; }
-  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
-  @font-face { font-family:'Tenor Sans'; src:url('./fonts/tenor-sans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
-  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-300.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
-  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-300-italic.woff2') format('woff2'); font-weight:300; font-style:italic; font-display:swap; }
-  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
-  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
-</style>
+<!-- Fonts via CDN for development — self-host before production:
+     Download Fraunces, Cinzel, Jost from fonts.google.com, convert to woff2,
+     place in ./fonts/ and replace these tags with @font-face declarations. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --bone:       oklch(95.5% 0.009 88);
@@ -270,9 +262,9 @@
     --hero-2:     oklch(45.1% 0.055 74);
     --hero-3:     oklch(65.8% 0.071 73);
     --hero-4:     oklch(79.8% 0.041 83);
-    --serif:      'Cormorant Garamond', Georgia, serif;
-    --caps:       'Tenor Sans', serif;
-    --sans:       'DM Sans', -apple-system, sans-serif;
+    --serif:      'Fraunces', Georgia, serif;
+    --caps:       'Cinzel', serif;
+    --sans:       'Jost', -apple-system, sans-serif;
     --max:        1200px;
     --pad:        120px;
     --radius:     14px;
@@ -301,15 +293,15 @@
   }
   .skip-link:focus { top: 0; }
   h1,h2,h3,h4 { font-family: var(--serif); font-weight: 300; line-height: 1.06; letter-spacing: -0.015em; color: var(--ink); }
-  h1 { font-size: clamp(44px, 5.8vw, 78px); }
-  h2 { font-size: clamp(32px, 4vw, 56px); }
-  h3 { font-size: 26px; font-weight: 400; }
+  h1 { font-size: clamp(44px, 5.8vw, 78px); font-variation-settings: 'opsz' 72; }
+  h2 { font-size: clamp(32px, 4vw, 56px); font-variation-settings: 'opsz' 48; }
+  h3 { font-size: 26px; font-weight: 400; font-variation-settings: 'opsz' 24; }
   em, i { font-style: italic; color: var(--gold-deep); }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
   section { padding: var(--pad) 0; position: relative; }
 
   .eyebrow {
-    font-family: var(--caps); font-size: 11px; letter-spacing: 0.3em;
+    font-family: var(--caps); font-size: 10.5px; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--gold-mid);
   }
   .lead { font-size: 17px; line-height: 1.75; color: var(--char); max-width: 52ch; font-weight: 300; }
@@ -331,7 +323,7 @@
   }
   .nav-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px;
     display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-  .brand { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ivory); transition: color 0.4s; letter-spacing: 0.01em; }
+  .brand { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ivory); transition: color 0.4s; letter-spacing: 0.01em; font-variation-settings: 'opsz' 22; }
   nav.top.scrolled .brand { color: var(--ink); }
   .brand i { color: var(--gold-light); transition: color 0.4s; }
   nav.top.scrolled .brand i { color: var(--gold-deep); }
@@ -797,7 +789,7 @@
   /* ─── FOOTER ─── */
   footer.foot { background: var(--ink); color: rgba(253,250,245,0.65); padding: 88px 0 max(32px, calc(32px + env(safe-area-inset-bottom, 0px))); }
   .foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
-  .foot-brand { font-family: var(--serif); font-size: 34px; color: var(--ivory); font-weight: 300; margin-bottom: 18px; }
+  .foot-brand { font-family: var(--serif); font-size: 34px; color: var(--ivory); font-weight: 300; margin-bottom: 18px; font-variation-settings: 'opsz' 32; }
   .foot-brand i { color: var(--gold); }
   .foot-grid > div:first-child > p { font-size: 14.5px; line-height: 1.75; max-width: 34ch; color: rgba(253,250,245,0.5); }
   .foot-col h4 { font-family: var(--caps); font-size: 10px; letter-spacing: 0.24em;
@@ -1358,9 +1350,28 @@ function elasticOut(t) {
   return Math.pow(2, -10 * t) * Math.sin((t - 0.075) * (2 * Math.PI) / 0.3) + 1;
 }
 
-const BALLOON_COUNT = 12;
+const BALLOON_COUNT = 20;
 const balloonField = document.getElementById('balloonField');
 const balloonPool = [];
+
+// Zone-based distribution: shuffle 10 horizontal zones so balloons cycle
+// evenly across the screen before repeating any zone.
+const SPAWN_ZONES = 10;
+let zoneQueue = [];
+function refillZoneQueue() {
+  zoneQueue = Array.from({ length: SPAWN_ZONES }, (_, i) => i);
+  for (let i = zoneQueue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [zoneQueue[i], zoneQueue[j]] = [zoneQueue[j], zoneQueue[i]];
+  }
+}
+refillZoneQueue();
+function getSpawnLeft() {
+  if (zoneQueue.length === 0) refillZoneQueue();
+  const zone = zoneQueue.pop();
+  const zoneW = 86 / SPAWN_ZONES;
+  return 4 + zone * zoneW + Math.random() * zoneW * 0.85;
+}
 
 function createBalloonSVG(index) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -1407,7 +1418,7 @@ function colorBalloon(b) {
 }
 
 function resetBalloon(b) {
-  b.left = 4 + Math.random() * 88;
+  b.left = getSpawnLeft();
   b.bottom = -(5 + Math.random() * 10);
   b.width = 45 + Math.random() * 85;
   b.depth = 0.02 + Math.random() * 0.05;
@@ -1441,7 +1452,7 @@ function trySpawn(now) {
   b.bottom = -(2 + Math.random() * 8);
   b.state = 'inflating';
   lastSpawnTime = now;
-  nextSpawnDelay = 800 + Math.random() * 1400;
+  nextSpawnDelay = 350 + Math.random() * 550;
 }
 
 function updateBalloons(cx, cy) {
