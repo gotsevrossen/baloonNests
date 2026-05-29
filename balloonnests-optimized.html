@@ -235,29 +235,41 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tenor+Sans&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<!-- Self-hosted fonts: place woff2 files in ./fonts/
+     Source: https://fonts.google.com — Cormorant Garamond (300,400,500 normal+italic), Tenor Sans (400), DM Sans (300,400,500 normal; 300 italic) -->
+<style>
+  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-300.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-300-italic.woff2') format('woff2'); font-weight:300; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-400-italic.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Cormorant Garamond'; src:url('./fonts/cormorant-garamond-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Tenor Sans'; src:url('./fonts/tenor-sans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-300.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
+  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-300-italic.woff2') format('woff2'); font-weight:300; font-style:italic; font-display:swap; }
+  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'DM Sans'; src:url('./fonts/dm-sans-500.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+</style>
 <style>
   :root {
-    --bone:       #F6F1E8;
-    --ivory:      #FDFAF5;
-    --paper:      #EDE5D5;
-    --ink:        #1F1B16;
-    --char:       #443D34;
-    --mute:       #756D64;
-    --soft:       #C5BDAF;
-    --gold:       #B89968;
-    --gold-deep:  #6B5230;
-    --gold-mid:   #8A7039;
-    --gold-light: #D4B27A;
-    --gold-glow:  #E8D4A8;
-    --line:       rgba(31,27,22,0.09);
-    --line-hard:  rgba(31,27,22,0.14);
-    --hero-1:     #4A3D28;
-    --hero-2:     #7A6842;
-    --hero-3:     #B89968;
-    --hero-4:     #D4C49A;
+    --bone:       oklch(95.5% 0.009 88);
+    --ivory:      oklch(98.5% 0.006 87);
+    --paper:      oklch(91.2% 0.016 86);
+    --ink:        oklch(12.1% 0.009 73);
+    --char:       oklch(25.8% 0.015 75);
+    --mute:       oklch(45.8% 0.016 76);
+    --soft:       oklch(76.1% 0.014 82);
+    --gold:       oklch(65.8% 0.071 73);
+    --gold-deep:  oklch(36.5% 0.060 65);
+    --gold-mid:   oklch(48.4% 0.071 70);
+    --gold-light: oklch(74.8% 0.069 76);
+    --gold-glow:  oklch(86.2% 0.048 84);
+    --success:    oklch(35.5% 0.052 142);
+    --line:       oklch(12.1% 0.009 73 / 0.09);
+    --line-hard:  oklch(12.1% 0.009 73 / 0.14);
+    --hero-1:     oklch(26.7% 0.035 70);
+    --hero-2:     oklch(45.1% 0.055 74);
+    --hero-3:     oklch(65.8% 0.071 73);
+    --hero-4:     oklch(79.8% 0.041 83);
     --serif:      'Cormorant Garamond', Georgia, serif;
     --caps:       'Tenor Sans', serif;
     --sans:       'DM Sans', -apple-system, sans-serif;
@@ -343,6 +355,7 @@
     font-family: var(--caps); font-size: 11px; letter-spacing: 0.22em;
     text-transform: uppercase; padding: 10px 22px; border: 1px solid rgba(255,255,255,0.4);
     color: rgba(253,250,245,0.9); border-radius: 999px;
+    touch-action: manipulation;
     transition: background .3s var(--ease-out), color .3s var(--ease-out), border-color .3s var(--ease-out);
   }
   nav.top.scrolled .nav-cta { border-color: var(--ink); color: var(--ink); }
@@ -350,10 +363,10 @@
   .nav-cta:active { transform: scale(0.97); }
 
   .menu-toggle {
-    display: none; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3);
+    display: none; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.3);
     border-radius: 50%; background: none; cursor: pointer;
     flex-direction: column; align-items: center; justify-content: center;
-    gap: 5px; padding: 0;
+    gap: 5px; padding: 0; touch-action: manipulation;
     transition: border-color .3s var(--ease-out), background .3s var(--ease-out);
   }
   .menu-toggle:hover { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); }
@@ -411,10 +424,12 @@
     padding: 15px 32px; font-family: var(--caps);
     font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
     border-radius: 999px; cursor: pointer; border: 1px solid transparent;
+    touch-action: manipulation;
     transition: background .3s var(--ease-out), color .3s var(--ease-out), border-color .3s var(--ease-out), transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
   }
   .btn:active { transform: scale(0.97); }
   .btn-gold { background: var(--gold-deep); color: var(--ivory); border-color: var(--gold-deep); }
+  .btn-gold.is-success { background: var(--success); border-color: var(--success); pointer-events: none; cursor: default; }
   .btn-gold:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(31,27,22,0.18); }
   .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-hard); }
   .btn-ghost:hover { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
@@ -512,7 +527,7 @@
   .process-num {
     font-family: var(--serif); font-size: 72px; color: var(--gold-light);
     opacity: 0.25; line-height: 1; margin-bottom: 14px; font-weight: 300;
-    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   }
   .process-step:hover .process-num { opacity: 0.45; transform: scale(1.08); }
   .process-step h3 { font-size: 22px; margin-bottom: 12px; }
@@ -523,7 +538,8 @@
   .offering {
     background: var(--ivory); border: 1px solid var(--line); border-radius: var(--radius);
     overflow: hidden; display: flex; flex-direction: column;
-    cursor: pointer; transition: transform .5s var(--ease-out), box-shadow .5s ease;
+    cursor: pointer; transition: transform .3s var(--ease-out), box-shadow .3s ease;
+    touch-action: manipulation;
     position: relative;
   }
   .offering:hover { transform: translateY(-7px) rotateX(1deg) rotateY(-0.5deg);
@@ -535,7 +551,7 @@
     border-bottom: 1px solid var(--line);
   }
   .offering-img .placeholder-icon { font-size: 44px; opacity: 0.18;
-    transition: transform 0.5s var(--ease-out), opacity 0.4s; }
+    transition: transform 0.3s var(--ease-out), opacity 0.3s; }
   .offering:hover .offering-img .placeholder-icon { transform: scale(1.15) translateY(-4px); opacity: 0.28; }
   .offering-img .tag {
     position: absolute; top: 14px; left: 14px;
@@ -565,7 +581,17 @@
     letter-spacing: 0.18em; text-transform: uppercase;
     display: inline-flex; align-items: center; gap: 6px;
     transition: gap .3s var(--ease-out), color .25s;
+    touch-action: manipulation; min-height: 44px;
   }
+  .offering .inquire-link::after {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    border-radius: var(--radius);
+  }
+  .offering .inquire-link:active { opacity: 0.7; transform: scale(0.97); }
+  .offering:has(.inquire-link:focus-visible) {
+    outline: 2px solid var(--gold); outline-offset: 3px;
+  }
+  .offering .inquire-link:focus-visible { outline: none; }
   .offering:hover .inquire-link { gap: 10px; color: var(--ink); }
 
   /* ─── GALLERY ─── */
@@ -578,7 +604,7 @@
     background: linear-gradient(135deg, var(--paper) 0%, var(--bone) 100%);
     border-radius: var(--radius-sm); overflow: hidden; position: relative;
     display: flex; align-items: center; justify-content: center;
-    transition: transform .5s var(--ease-out), box-shadow .5s;
+    transition: transform .3s var(--ease-out), box-shadow .3s;
   }
   .gallery-cell:hover { transform: scale(1.03) rotate(-0.3deg); z-index: 2;
     box-shadow: 0 16px 40px rgba(31,27,22,0.1); }
@@ -642,7 +668,9 @@
   }
   .about-grid h2 { margin-bottom: 24px; }
   .about-grid .lead { margin-bottom: 20px; }
-  .about-detail { font-size: 15px; color: var(--mute); line-height: 1.75; margin-bottom: 16px; }
+  .about-detail { font-size: 15px; color: var(--mute); line-height: 1.75; margin-bottom: 16px; max-width: 65ch; }
+  .faq-item.skip-anim .faq-answer,
+  .faq-item.skip-anim .faq-icon { transition: none !important; }
   .about-stats {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
     padding-top: 32px; border-top: 1px solid var(--line);
@@ -666,6 +694,7 @@
     width: 100%; background: none; border: none; cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
     padding: 28px 0; gap: 24px; text-align: left;
+    touch-action: manipulation;
   }
   .faq-question h3 {
     font-family: var(--serif); font-size: 22px; font-weight: 400;
@@ -754,8 +783,10 @@
     transition: background .3s var(--ease-out), color .3s var(--ease-out), border-color .3s var(--ease-out), transform .3s var(--ease-out);
     user-select: none; background: transparent;
     min-height: 44px; display: inline-flex; align-items: center;
+    touch-action: manipulation;
   }
   .occasion-pill:hover { border-color: var(--gold); color: var(--gold-deep); transform: translateY(-1px); }
+  .occasion-pill:active { transform: scale(0.96); }
   .occasion-pill.active {
     background: var(--gold-deep); border-color: var(--gold-deep); color: var(--ivory);
     transform: scale(1.03);
@@ -764,7 +795,7 @@
   form.inquiry button[type="submit"] { width: 100%; margin-top: 8px; }
 
   /* ─── FOOTER ─── */
-  footer.foot { background: var(--ink); color: rgba(253,250,245,0.65); padding: 88px 0 32px; }
+  footer.foot { background: var(--ink); color: rgba(253,250,245,0.65); padding: 88px 0 max(32px, calc(32px + env(safe-area-inset-bottom, 0px))); }
   .foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
   .foot-brand { font-family: var(--serif); font-size: 34px; color: var(--ivory); font-weight: 300; margin-bottom: 18px; }
   .foot-brand i { color: var(--gold); }
@@ -895,20 +926,37 @@
     .about-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
   }
 
+  @media (hover: none) {
+    .offering:hover { transform: none; box-shadow: none; }
+    .offering:hover .offering-img .placeholder-icon { transform: none; opacity: 0.18; }
+    .offering:hover .tag { transform: none; }
+    .gallery-cell:hover { transform: none; box-shadow: none; }
+    .review-card:hover { transform: none; box-shadow: none; }
+    .btn-gold:hover { transform: none; box-shadow: none; }
+    .process-step:hover .process-num { transform: none; opacity: 0.25; }
+    .nav-links a:hover::after { transform: scaleX(0); }
+    .occasion-pill:hover { transform: none; }
+    .contact-detail:hover { padding-left: 0; }
+    .foot-col a:hover { padding-left: 0; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
     }
-    .marquee-track, .reviews-track { animation: none !important; }
-    .balloon-string { animation: none !important; }
+    .marquee-track, .reviews-track, .balloon-string { animation: none !important; }
+    .balloon-shape { display: none !important; }
+    .reveal { transition: opacity 0.3s ease !important; transform: none !important; opacity: 1 !important; }
+    .hero-tilt { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .mobile-menu-links li { transition: opacity 0.2s ease !important; transform: none !important; }
+    .offering:hover, .gallery-cell:hover, .review-card:hover { transform: none !important; box-shadow: none !important; }
   }
 </style>
 </head>
 <body>
 
-<a href="#contact" class="skip-link">Skip to contact form</a>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- NAV -->
 <nav class="top" id="topnav" aria-label="Main navigation">
@@ -931,7 +979,7 @@
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <div class="mobile-menu-inner">
     <span class="menu-eyebrow">Navigation</span>
     <ul class="mobile-menu-links">
@@ -945,7 +993,7 @@
   </div>
 </div>
 
-<main>
+<main id="main-content">
 
 <!-- HERO -->
 <section class="hero">
@@ -1081,13 +1129,13 @@
       <p class="lead">A handful of recent pieces from weddings, launches, and milestone parties.</p>
     </div>
     <div class="gallery reveal">
-      <div class="gallery-cell g1"><span class="ph">Flagship</span></div>
-      <div class="gallery-cell g2"><span class="ph">Detail</span></div>
-      <div class="gallery-cell g3"><span class="ph">Arch</span></div>
-      <div class="gallery-cell g4"><span class="ph">Reception</span></div>
-      <div class="gallery-cell g5"><span class="ph">Column</span></div>
-      <div class="gallery-cell g6"><span class="ph">Full room</span></div>
-      <div class="gallery-cell g7"><span class="ph">Mosaic</span></div>
+      <div class="gallery-cell g1" aria-hidden="true"><span class="ph">Flagship</span></div>
+      <div class="gallery-cell g2" aria-hidden="true"><span class="ph">Detail</span></div>
+      <div class="gallery-cell g3" aria-hidden="true"><span class="ph">Arch</span></div>
+      <div class="gallery-cell g4" aria-hidden="true"><span class="ph">Reception</span></div>
+      <div class="gallery-cell g5" aria-hidden="true"><span class="ph">Column</span></div>
+      <div class="gallery-cell g6" aria-hidden="true"><span class="ph">Full room</span></div>
+      <div class="gallery-cell g7" aria-hidden="true"><span class="ph">Mosaic</span></div>
     </div>
     <div class="gallery-foot reveal">
       <a href="#contact" class="btn btn-ghost">Request the full portfolio</a>
@@ -1159,32 +1207,32 @@
     </div>
     <div class="faq-list reveal">
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>How much do balloon installations cost?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>Table centerpieces start at $45, balloon gifts from $79, arches from $189, and mosaic numbers from $219. Custom installations are quoted per project based on size, complexity, and venue. All prices include delivery, on-site setup, styling, and post-event takedown.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-1"><h3>How much do balloon installations cost?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-1"><p>Table centerpieces start at $45, balloon gifts from $79, arches from $189, and mosaic numbers from $219. Custom installations are quoted per project based on size, complexity, and venue. All prices include delivery, on-site setup, styling, and post-event takedown.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>How far in advance should I book?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>We recommend booking at least 2 weeks in advance for standard pieces like centerpieces and gifts, and 4 weeks for large custom installations, arches, or multi-piece setups. We respond to all inquiries within 24 hours with a custom proposal tailored to your event.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-2"><h3>How far in advance should I book?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-2"><p>We recommend booking at least 2 weeks in advance for standard pieces like centerpieces and gifts, and 4 weeks for large custom installations, arches, or multi-piece setups. We respond to all inquiries within 24 hours with a custom proposal tailored to your event.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>Do you deliver and set up?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>Yes, every order includes delivery, on-site setup, and styling at your venue. After your event, we come back and take everything down. You celebrate, we handle the logistics. Delivery is included for venues within the greater metro area, with weekend travel available for destination events.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-3"><h3>Do you deliver and set up?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-3"><p>Yes, every order includes delivery, on-site setup, and styling at your venue. After your event, we come back and take everything down. You celebrate, we handle the logistics. Delivery is included for venues within the greater metro area, with weekend travel available for destination events.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>What events do you decorate?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>We create balloon installations for weddings, birthdays, baby showers, anniversaries, graduations, corporate events, brand launches, holiday parties, gender reveals, and proposals. If you have a celebration in mind, we can design something for it.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-4"><h3>What events do you decorate?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-4"><p>We create balloon installations for weddings, birthdays, baby showers, anniversaries, graduations, corporate events, brand launches, holiday parties, gender reveals, and proposals. If you have a celebration in mind, we can design something for it.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>Can I choose custom colours?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>Absolutely. Every installation is designed around your colour palette, theme, and venue. Share your inspiration, mood board, fabric swatches, or Pantone colours and we match them precisely. We carry over 80 balloon colours and can mix custom shades.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-5"><h3>Can I choose custom colours?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-5"><p>Absolutely. Every installation is designed around your colour palette, theme, and venue. Share your inspiration, mood board, fabric swatches, or Pantone colours and we match them precisely. We carry over 80 balloon colours and can mix custom shades.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>How long do the balloons last?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>Our installations are built to last the full duration of your event, typically 8 to 12 hours indoors. We use professional-grade balloons treated for maximum longevity. Outdoor installations may vary depending on heat and sun exposure. For multi-day events, we can refresh or rebuild pieces as needed.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-6"><h3>How long do the balloons last?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-6"><p>Our installations are built to last the full duration of your event, typically 8 to 12 hours indoors. We use professional-grade balloons treated for maximum longevity. Outdoor installations may vary depending on heat and sun exposure. For multi-day events, we can refresh or rebuild pieces as needed.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false"><h3>What areas do you serve?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-answer"><p>We serve the greater metro area for standard delivery and setup. For venues further afield, we offer weekend travel for an additional fee. Contact us with your venue location and event date, and we will confirm availability and any travel costs.</p></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-a-7"><h3>What areas do you serve?</h3><span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-answer" id="faq-a-7"><p>We serve the greater metro area for standard delivery and setup. For venues further afield, we offer weekend travel for an additional fee. Contact us with your venue location and event date, and we will confirm availability and any travel costs.</p></div>
       </div>
     </div>
   </div>
@@ -1558,25 +1606,54 @@ occasions.forEach(o => {
   pillsContainer.appendChild(label);
 });
 
-// FAQ accordion
 document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', (e) => {
+    const isKeyboard = e.detail === 0;
     const item = btn.parentElement;
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => {
+      if (isKeyboard) i.classList.add('skip-anim');
       i.classList.remove('open');
       i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
     });
     if (!isOpen) {
+      if (isKeyboard) item.classList.add('skip-anim');
       item.classList.add('open');
       btn.setAttribute('aria-expanded', 'true');
     }
+    if (isKeyboard) requestAnimationFrame(() => document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('skip-anim')));
   });
 });
 
 const modal = document.getElementById('productModal');
 const modalClose = document.getElementById('modalClose');
 const modalCustomFields = document.getElementById('modalCustomFields');
+const modalInner = modal.querySelector('.modal');
+let modalLastFocus = null;
+
+function getFocusable(container) {
+  return [...container.querySelectorAll(
+    'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+  )];
+}
+
+function trapFocus(e) {
+  if (e.key !== 'Tab' || !modal.classList.contains('open')) return;
+  const focusable = getFocusable(modalInner);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey) {
+    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+  } else {
+    if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  if (modalLastFocus) { modalLastFocus.focus(); modalLastFocus = null; }
+}
 
 const PRODUCT_FIELDS = {
   'Table centerpieces': {
@@ -1652,19 +1729,18 @@ function openProductModal(card) {
   document.getElementById('modalTitle').textContent = 'Inquire about ' + title;
   document.getElementById('modalPrice').textContent = small + ' ' + priceText;
   buildCustomFields(title);
+  modalLastFocus = document.activeElement;
   modal.classList.add('open');
+  requestAnimationFrame(() => { const f = getFocusable(modalInner)[0]; if (f) f.focus(); });
 }
 
-document.querySelectorAll('.offering').forEach(card => {
-  card.addEventListener('click', () => openProductModal(card));
-});
 document.querySelectorAll('.inquire-link').forEach(link => {
-  link.addEventListener('click', e => { e.preventDefault(); });
+  link.addEventListener('click', e => { e.preventDefault(); openProductModal(link.closest('.offering')); });
 });
 
-modalClose.addEventListener('click', () => modal.classList.remove('open'));
-modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); trapFocus(e); });
 
 document.querySelectorAll('.offering').forEach(card => {
   card.addEventListener('mousemove', e => {
@@ -1907,9 +1983,7 @@ inquiryForm.addEventListener('submit', e => {
   e.preventDefault();
   launchCelebration(inquirySubmit);
   inquirySubmit.textContent = 'Sent, we\'ll be in touch!';
-  inquirySubmit.style.background = '#3D5A32';
-  inquirySubmit.style.borderColor = '#3D5A32';
-  inquirySubmit.style.pointerEvents = 'none';
+  inquirySubmit.classList.add('is-success');
 });
 </script>
 </body>
