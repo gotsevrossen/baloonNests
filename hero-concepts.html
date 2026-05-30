@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Concepts — Ballon Nests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400;1,9..144,500&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  --bone:       oklch(95.5% 0.009 88);
+  --ivory:      oklch(98.5% 0.006 87);
+  --ink:        oklch(12.1% 0.009 73);
+  --char:       oklch(25.8% 0.015 75);
+  --mute:       oklch(45.8% 0.016 76);
+  --gold:       oklch(65.8% 0.071 73);
+  --gold-deep:  oklch(36.5% 0.060 65);
+  --gold-mid:   oklch(48.4% 0.071 70);
+  --gold-light: oklch(74.8% 0.069 76);
+  --line:       oklch(12.1% 0.009 73 / 0.09);
+  --serif:      'Fraunces', Georgia, serif;
+  --caps:       'Cinzel', serif;
+  --sans:       'Jost', -apple-system, sans-serif;
+  --ease-out:   cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-slot:  cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans); font-weight: 300;
+  background: var(--ink); overflow-x: hidden;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ═══════════════════════════════════════════════════
+   GRAIN TEXTURE (inline SVG noise — tactile luxury)
+═══════════════════════════════════════════════════ */
+.grain {
+  position: absolute; inset: 0; z-index: 8; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.05;
+}
+.grain-dark { opacity: 0.08; }
+
+/* ═══════════════════════════════════════════════════
+   CONCEPT COUNTER
+═══════════════════════════════════════════════════ */
+.counter {
+  position: fixed; top: 24px; right: 28px; z-index: 500;
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--caps); font-size: 8.5px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--ivory);
+  background: oklch(12.1% 0.009 73 / 0.55);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid oklch(98.5% 0.006 87 / 0.1);
+  border-radius: 999px; padding: 8px 15px; pointer-events: none;
+}
+.counter-frac { opacity: 0.4; }
+.counter-label { margin-left: 8px; opacity: 0.55; font-size: 7.5px; letter-spacing: 0.3em; }
+
+/* ═══════════════════════════════════════════════════
+   SHARED SECTION + ELEMENTS
+═══════════════════════════════════════════════════ */
+.concept { position: relative; min-height: 100vh; overflow: hidden; }
+
+.eyebrow {
+  font-family: var(--caps); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold-mid);
+}
+.concept-tag {
+  position: absolute; bottom: 24px; left: 36px; z-index: 20;
+  font-family: var(--caps); font-size: 8px; letter-spacing: 0.32em;
+  text-transform: uppercase; opacity: 0.3;
+}
+
+.btn {
+  display: inline-flex; align-items: center;
+  padding: 13px 28px; font-family: var(--caps); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase; border-radius: 999px;
+  border: 1px solid transparent; cursor: pointer; touch-action: manipulation;
+  transition: background .28s var(--ease-out), color .28s, border-color .28s, transform .28s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-gold  { background: var(--gold-deep); color: var(--ivory); border-color: var(--gold-deep); }
+.btn-gold:hover  { background: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+.btn-rim   {
+  background: transparent; color: var(--ivory);
+  border-color: oklch(98.5% 0.006 87 / 0.3);
+}
+.btn-rim:hover {
+  background: oklch(98.5% 0.006 87 / 0.09);
+  border-color: oklch(98.5% 0.006 87 / 0.55);
+}
+
+
+/* ═══════════════════════════════════════════════════
+   C1 — CEREMONY+
+   Bone bg · Slot-reveal per line · Char stagger on
+   "photographs." · Grain · Pull quote right column
+═══════════════════════════════════════════════════ */
+.c1 {
+  background: var(--bone);
+  display: flex; flex-direction: column;
+  padding: 0 8vw;
+}
+.c1 .concept-tag { color: var(--gold-deep); }
+
+/* Eyebrow + extending rule */
+.c1-top {
+  display: flex; align-items: center; gap: 24px;
+  padding-top: 10vh;
+}
+.c1-top .eyebrow { white-space: nowrap; }
+.c1-rule {
+  flex: 1; margin-right: -8vw;
+  height: 0; border: none;
+  border-top: 0.5px solid oklch(65.8% 0.071 73 / 0.4);
+}
+
+/* Headline — each line is a "slot" that the text rises through */
+.c1-headline {
+  font-family: var(--serif); font-weight: 300; color: var(--ink);
+  font-size: clamp(40px, 8.5vw, 138px); line-height: 0.93;
+  letter-spacing: -0.022em;
+  font-variation-settings: 'opsz' 96;
+  margin-top: 8vh; flex: 1;
+}
+.slot { display: block; overflow: hidden; padding-bottom: 0.4em; }
+.slot-inner {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 0.9s var(--ease-slot);
+}
+.c1.in-view .slot:nth-child(1) .slot-inner { transform: none; }
+.c1.in-view .slot:nth-child(2) .slot-inner { transform: none; transition-delay: 0.11s; }
+.c1.in-view .slot:nth-child(3) .slot-inner { transform: none; transition-delay: 0.22s; }
+
+/* "photographs." gets char-by-char stagger via JS */
+.gold-word { color: var(--gold-deep); font-style: italic; }
+.gold-word .ch {
+  display: inline-block;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.45s ease, transform 0.45s var(--ease-out);
+}
+.c1.in-view .gold-word .ch { opacity: 1; transform: none; }
+
+/* Bottom grid */
+.c1-bottom {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  align-items: end; padding-bottom: calc(10vh + 16px); padding-top: 5vh;
+}
+.c1-left { display: flex; flex-direction: column; justify-content: flex-end; }
+.c1-lead {
+  font-size: 15.5px; line-height: 1.78; color: var(--mute);
+  max-width: 42ch; margin-bottom: 30px;
+}
+.c1-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Pull quote */
+.c1-quote {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s var(--ease-out);
+  transition-delay: 0.7s;
+}
+.c1.in-view .c1-quote { opacity: 1; transform: none; }
+
+.quote-mark {
+  font-family: var(--serif); font-style: italic;
+  font-size: 96px; line-height: 0.52; color: var(--gold);
+  font-variation-settings: 'opsz' 72;
+  margin-bottom: 16px; user-select: none;
+}
+.quote-text {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(20px, 2.8vw, 40px); color: var(--ink);
+  line-height: 1.24; letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 36; margin-bottom: 22px;
+}
+.quote-attr {
+  display: flex; align-items: baseline; gap: 10px;
+  padding-top: 13px; border-top: 0.5px solid var(--gold-deep);
+}
+.quote-name {
+  font-family: var(--caps); font-size: 9.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink);
+}
+.quote-event {
+  font-family: var(--caps); font-size: 9.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--mute);
+}
+
+/* Gold floor */
+.c1-floor {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 16px; background: var(--gold-deep); z-index: 2;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   C2 — NOCTURNE
+   Ink bg · "photographs." at 22vw bleeds off both
+   viewport edges · Slow cinematic scale entrance
+═══════════════════════════════════════════════════ */
+.c2 {
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 0 6vw;
+}
+.c2 .concept-tag { color: oklch(60% 0.015 73); }
+
+.c2-eyebrow {
+  color: var(--gold-mid); margin-bottom: 10vh;
+  opacity: 0; transform: translateY(-8px);
+  transition: opacity 0.7s ease, transform 0.7s var(--ease-out);
+  position: relative; z-index: 2;
+}
+.c2.in-view .c2-eyebrow { opacity: 1; transform: none; }
+
+/* Context lines above the big word */
+.c2-context {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(16px, 2.6vw, 36px); line-height: 1.1;
+  color: oklch(98.5% 0.006 87 / 0.52);
+  font-variation-settings: 'opsz' 32;
+  letter-spacing: -0.01em; margin-bottom: 4px;
+  position: relative; z-index: 2;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s var(--ease-out);
+  transition-delay: 0.3s;
+}
+.c2.in-view .c2-context { opacity: 1; transform: none; }
+
+/* The word — large, centered, fits the viewport with margin */
+.c2-word-wrap {
+  width: 100%; overflow: visible;
+  position: relative; z-index: 2;
+  padding: 0.1em 0 0.35em;
+}
+.c2-word {
+  display: block; font-family: var(--serif); font-style: italic;
+  font-weight: 300; font-size: clamp(44px, 13vw, 185px); line-height: 0.92;
+  color: var(--gold-light); white-space: nowrap;
+  font-variation-settings: 'opsz' 144; letter-spacing: -0.02em;
+  text-align: center; user-select: none;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 1.4s ease, transform 1.4s var(--ease-out);
+}
+.c2.in-view .c2-word { opacity: 1; transform: scale(1); }
+
+/* Divider + subtext below */
+.c2-lower {
+  position: relative; z-index: 2; margin-top: 6vh;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s var(--ease-out);
+  transition-delay: 0.7s;
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+}
+.c2.in-view .c2-lower { opacity: 1; transform: none; }
+.c2-divider {
+  width: min(520px, 80vw); height: 0.5px;
+  background: oklch(65.8% 0.071 73 / 0.35);
+  margin: 0 auto;
+}
+.c2-sub {
+  font-size: 15px; line-height: 1.7;
+  color: oklch(98.5% 0.006 87 / 0.52);
+  max-width: 44ch;
+}
+.c2-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+
+/* ═══════════════════════════════════════════════════
+   C3 — RHYTHM
+   Bone bg · Alternating L/R/center alignment creates
+   typographic wave · Each line animates from its side
+═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   C3 — THE ARCH
+   Warm radial bg · Transparent arch PNG centered ·
+   Bone card floats inside the arch circle with a
+   luxury double-border ring (invitation-card effect)
+═══════════════════════════════════════════════════ */
+.c3 {
+  background: radial-gradient(ellipse 130% 110% at 50% 54%,
+    oklch(93% 0.028 88) 0%,
+    oklch(82% 0.062 79) 38%,
+    oklch(67% 0.072 70) 100%);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; position: relative; overflow: hidden;
+}
+.c3 .concept-tag { color: oklch(36.5% 0.060 65 / 0.5); }
+
+/* Arch image — transparent PNG, centered, subtle entrance + continuous float */
+.arch-img {
+  position: absolute;
+  width: min(94vh, 94vw); height: min(94vh, 94vw);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  object-fit: contain; z-index: 1;
+  pointer-events: none; user-select: none;
+  opacity: 0;
+  transition: opacity 1.5s ease, transform 1.5s var(--ease-out);
+}
+.c3.in-view .arch-img {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: archFloat 9s ease-in-out 1.5s infinite;
+}
+@keyframes archFloat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%       { transform: translate(-50%, calc(-50% - 10px)) scale(1.006); }
+}
+
+/* Floating bone card — sits in the open circle of the arch */
+.float-card {
+  position: relative; z-index: 2;
+  background: var(--ivory);
+  border: 1.5px solid oklch(65.8% 0.071 73 / 0.5);
+  border-radius: 10px;
+  padding: 52px 52px 48px;
+  max-width: min(440px, 72vw);
+  text-align: center;
+  /* Layer 1: ivory gap · Layer 2: thin outer gold ring · Layers 3-5: deep warm shadow */
+  box-shadow:
+    0 0 0 8px var(--ivory),
+    0 0 0 10px oklch(65.8% 0.071 73 / 0.26),
+    0 16px 48px oklch(36.5% 0.060 65 / 0.16),
+    0 40px 100px oklch(36.5% 0.060 65 / 0.2),
+    0 80px 160px oklch(36.5% 0.060 65 / 0.13);
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.95s ease 0.55s, transform 1.1s var(--ease-out) 0.55s;
+}
+.c3.in-view .float-card { opacity: 1; transform: translateY(0); }
+
+/* Outer hairline — luxury double-border invitation effect */
+.float-card::before {
+  content: ''; position: absolute; inset: -12px;
+  border: 0.5px solid oklch(65.8% 0.071 73 / 0.2);
+  border-radius: 20px; pointer-events: none;
+}
+
+/* Card typography */
+.float-eyebrow {
+  font-family: var(--caps); font-size: 8.5px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--gold-mid);
+  display: block; margin-bottom: 22px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.6s ease 0.85s, transform 0.6s var(--ease-out) 0.85s;
+}
+.c3.in-view .float-eyebrow { opacity: 1; transform: none; }
+
+.float-headline {
+  font-family: var(--serif); font-weight: 300; color: var(--ink);
+  font-size: clamp(26px, 3.8vw, 52px);
+  line-height: 1.06; letter-spacing: -0.018em;
+  font-variation-settings: 'opsz' 48;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.7s ease 1s, transform 0.7s var(--ease-out) 1s;
+}
+.c3.in-view .float-headline { opacity: 1; transform: none; }
+
+.float-big {
+  display: block; font-style: italic; color: var(--gold-deep);
+  font-size: 1.4em; line-height: 0.88; margin-top: 4px;
+  font-variation-settings: 'opsz' 72;
+}
+.float-rule {
+  width: 26px; height: 0; border: none;
+  border-top: 0.5px solid var(--gold);
+  margin: 20px auto;
+  opacity: 0;
+  transition: opacity 0.6s ease 1.2s;
+}
+.c3.in-view .float-rule { opacity: 1; }
+
+.float-lead {
+  font-size: 14px; line-height: 1.8; color: var(--mute);
+  max-width: 30ch; margin: 0 auto 28px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.6s ease 1.3s, transform 0.6s var(--ease-out) 1.3s;
+}
+.c3.in-view .float-lead { opacity: 1; transform: none; }
+
+.float-ctas {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.6s ease 1.45s, transform 0.6s var(--ease-out) 1.45s;
+}
+.c3.in-view .float-ctas { opacity: 1; transform: none; }
+
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .c1-headline { font-size: 11.5vw; }
+  .c1-bottom { grid-template-columns: 1fr; gap: 36px; }
+  .c2-word { font-size: 14vw; }
+  .float-card { padding: 40px 36px; }
+  .arch-img { width: min(98vw, 85vh); height: min(98vw, 85vh); }
+}
+@media (max-width: 600px) {
+  .c1 { padding: 0 6vw; }
+  .c1-headline { font-size: 13vw; margin-top: 6vh; }
+  .c2-word { font-size: 15vw; }
+  .float-card { padding: 32px 28px; max-width: 88vw; }
+  .float-headline { font-size: clamp(22px, 6vw, 40px); }
+  .arch-img { width: 98vw; height: 98vw; }
+  .counter { top: 16px; right: 16px; }
+  .concept-tag { left: 20px; }
+}
+
+/* ═══════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .slot-inner { transform: none !important; transition: none !important; }
+  .c1-quote { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .c2-eyebrow, .c2-context, .c2-word, .c2-lower { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .gold-word .ch { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .arch-img, .float-card, .float-eyebrow, .float-headline,
+  .float-rule, .float-lead, .float-ctas {
+    opacity: 1 !important; transform: none !important;
+    animation: none !important; transition: none !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Concept counter -->
+<div class="counter" id="counter" aria-live="polite" aria-atomic="true">
+  <span id="cNum">01</span>
+  <span class="counter-frac">/ 03</span>
+  <span class="counter-label" id="cLabel">Ceremony+</span>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     01 — CEREMONY+
+     Improved editorial hero. Slot reveals, char stagger,
+     grain texture, pull quote entrance.
+════════════════════════════════════════════════════ -->
+<section class="concept c1 in-view" data-n="01" data-label="Ceremony+" aria-label="Hero concept: Ceremony+">
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Eyebrow + full-bleed rule -->
+  <div class="c1-top">
+    <span class="eyebrow">Hand-built balloon installations</span>
+    <hr class="c1-rule" aria-hidden="true">
+  </div>
+
+  <!-- Headline: each line slots upward into view -->
+  <h1 class="c1-headline" aria-label="We make the part everyone photographs.">
+    <span class="slot"><span class="slot-inner">We make the part</span></span>
+    <span class="slot"><span class="slot-inner">everyone</span></span>
+    <span class="slot">
+      <span class="slot-inner">
+        <em class="gold-word" id="c1Word">photographs.</em>
+      </span>
+    </span>
+  </h1>
+
+  <!-- Bottom grid: lead+ctas | pull quote -->
+  <div class="c1-bottom">
+    <div class="c1-left">
+      <p class="c1-lead">Arches, walls, ceilings, centerpieces. Designed around your colours, built by hand, set up at your venue. You celebrate. We clean up.</p>
+      <div class="c1-ctas">
+        <a href="#" class="btn btn-gold">Tell us about your event</a>
+        <a href="#" class="btn btn-ghost">See recent work</a>
+      </div>
+    </div>
+    <blockquote class="c1-quote">
+      <div class="quote-mark" aria-hidden="true">&ldquo;</div>
+      <p class="quote-text">She didn't decorate our wedding. She composed it.</p>
+      <footer class="quote-attr">
+        <span class="quote-name">Sarah</span>
+        <span class="quote-event">Wedding &middot; 2025</span>
+      </footer>
+    </blockquote>
+  </div>
+
+  <div class="c1-floor" aria-hidden="true"></div>
+  <span class="concept-tag">01 — Ceremony+</span>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     02 — NOCTURNE
+     Ink bg · "photographs." at 22vw bleeds off both
+     viewport edges · Slow scale entrance from stillness
+════════════════════════════════════════════════════ -->
+<section class="concept c2" data-n="02" data-label="Nocturne" aria-label="Hero concept: Nocturne">
+
+  <div class="grain grain-dark" aria-hidden="true"></div>
+
+  <span class="eyebrow c2-eyebrow">Hand-built balloon installations</span>
+
+  <!-- Context text above the word -->
+  <p class="c2-context" aria-hidden="true">We make the part<br>everyone</p>
+
+  <!-- The word: massive, crops at both edges -->
+  <div class="c2-word-wrap">
+    <span class="c2-word" aria-label="photographs.">photographs.</span>
+  </div>
+
+  <!-- Content below -->
+  <div class="c2-lower">
+    <hr class="c2-divider" aria-hidden="true">
+    <p class="c2-sub">Arches, walls, ceilings, centerpieces. Designed around your colours, built by hand, set up at your venue.</p>
+    <div class="c2-ctas">
+      <a href="#" class="btn btn-gold">Tell us about your event</a>
+      <a href="#" class="btn btn-rim">See recent work</a>
+    </div>
+  </div>
+
+  <span class="concept-tag" style="color: oklch(55% 0.015 73);">02 — Nocturne</span>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     03 — THE ARCH
+     Warm radial gradient bg · Transparent arch PNG ·
+     Bone floating card in arch circle · Venetian-
+     inspired staggered entrance · Continuous float
+     ─────────────────────────────────────────────────
+     SETUP: save your arch image as  ./arch.png
+════════════════════════════════════════════════════ -->
+<section class="concept c3" data-n="03" data-label="The Arch" aria-label="Hero concept: The Arch">
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Arch photo — transparent background PNG -->
+  <img src="./arch.png" class="arch-img" id="archImg"
+       alt="Hand-built balloon arch by Ballon Nests">
+
+  <!-- Floating card — positioned in the open circle of the arch -->
+  <div class="float-card">
+    <span class="float-eyebrow">Hand-built balloon installations</span>
+    <h1 class="float-headline" aria-label="We make the part everyone photographs.">
+      We make the part<br>everyone
+      <span class="float-big">photographs.</span>
+    </h1>
+    <hr class="float-rule" aria-hidden="true">
+    <p class="float-lead">Designed around your colours, built by hand, installed at your venue.</p>
+    <div class="float-ctas">
+      <a href="#" class="btn btn-gold">Tell us about your event</a>
+      <a href="#" class="btn btn-ghost">See recent work</a>
+    </div>
+  </div>
+
+  <span class="concept-tag">03 — The Arch</span>
+</section>
+
+
+<script>
+// ─── INTERSECTION OBSERVER — trigger section animations ───
+const sections = document.querySelectorAll('.concept');
+const cNum     = document.getElementById('cNum');
+const cLabel   = document.getElementById('cLabel');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in-view');
+    cNum.textContent   = e.target.dataset.n;
+    cLabel.textContent = e.target.dataset.label;
+  });
+}, { threshold: 0.35 });
+
+sections.forEach(s => io.observe(s));
+
+// ─── CHAR SPLIT — "photographs." in Ceremony+ ───
+// Each character animates in with a stagger via CSS transition-delay
+function splitWord(el) {
+  const raw = el.textContent;
+  el.textContent = '';
+  [...raw].forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'ch';
+    span.textContent = ch === ' ' ? ' ' : ch;
+    // Stagger: each char 38ms after the previous, starting after the slot reveal (≈500ms)
+    span.style.transitionDelay = `${0.5 + i * 0.038}s`;
+    el.appendChild(span);
+  });
+}
+
+const wordEl = document.getElementById('c1Word');
+if (wordEl) splitWord(wordEl);
+
+// Concept 1 fires immediately (it's in-view on load)
+// IO handles triggering .in-view which activates the ch transitions
+</script>
+</body>
+</html>

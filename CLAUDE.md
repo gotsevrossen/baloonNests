@@ -16,6 +16,175 @@ Skip for: pure backend logic, API design, database work, infrastructure, non-vis
 
 ---
 
+## PROJECT: BalloonNest
+
+**This is the active project.** All design work on this codebase is for BalloonNest — a premium balloon decoration and event styling company in Gurgaon, India. Apply this section first; it overrides general defaults below wherever they conflict.
+
+### Brand Identity
+- **Tagline:** "Bringing Joy and Elegance to Every Celebration"
+- **Values:** Creativity · Elegance · Joy · Personalization · Magic
+- **Audience:** Families and couples in Gurgaon / Delhi NCR planning celebrations. South Asian event culture — vibrant, layered, emotionally warm.
+- **Aesthetic:** Festive warmth meets refined elegance. Soft-luxe: pastel-forward with rich accent pops. Playful but polished. Never childish, never corporate.
+
+### Active Design Dials
+```
+DESIGN_VARIANCE  = 8   (expressive, not chaotic)
+MOTION_INTENSITY = 6   (balloons float, sections reveal, cards lift — no excess)
+VISUAL_DENSITY   = 3   (airy, generous white space, let celebrations breathe)
+```
+
+### Color Tokens
+```css
+:root {
+  /* Brand */
+  --color-blush:       #F9C6D0;   /* primary hero accent */
+  --color-rose:        #E8748A;   /* CTAs, highlights */
+  --color-gold:        #F5C842;   /* badges, star ratings, accents */
+  --color-lavender:    #C8A8E9;   /* secondary accent */
+  --color-sky:         #A8D8EA;   /* balloon motifs */
+  --color-mint:        #B5EAD7;   /* baby shower palette */
+
+  /* Neutrals */
+  --color-cream:       #FFF8F0;   /* page background */
+  --color-warm-white:  #FFFCF7;   /* hero backgrounds */
+  --color-charcoal:    #2E2E2E;   /* primary body text */
+  --color-soft-gray:   #7A7A8C;   /* subtext, captions */
+  --color-light-gray:  #F0EDE8;   /* section dividers, card backgrounds */
+
+  /* Gradients */
+  --gradient-hero:     linear-gradient(135deg, #FFF0F5 0%, #FFF8F0 50%, #F0F4FF 100%);
+  --gradient-cta:      linear-gradient(135deg, #E8748A, #F5A7B8);
+  --gradient-gold:     linear-gradient(135deg, #F5C842, #F9A825);
+  --gradient-balloon:  linear-gradient(160deg, #F9C6D0, #C8A8E9, #A8D8EA);
+}
+```
+
+Always use these tokens. Never introduce ad-hoc hex values. This is a warm, light-mode-only site — no dark mode.
+
+### Typography
+```css
+/* Fonts — self-host or use next/font, never raw Google Fonts link in production */
+--font-display:  'Playfair Display', Georgia, serif;   /* Hero H1 — use italic */
+--font-heading:  'Cormorant Garamond', Georgia, serif; /* H2, H3 — refined, expressive */
+--font-body:     'DM Sans', sans-serif;                /* Body, UI, buttons */
+--font-accent:   'Dancing Script', cursive;            /* Eyebrow labels, festive badges */
+
+/* Scale */
+--text-hero:   clamp(2.5rem, 6vw, 5rem);
+--text-h1:     clamp(2rem, 4vw, 3.5rem);
+--text-h2:     clamp(1.5rem, 3vw, 2.5rem);
+--text-h3:     1.375rem;
+--text-body:   1rem;
+--text-small:  0.875rem;
+--text-caption: 0.75rem;
+
+--leading-tight: 1.2;
+--leading-body:  1.65;
+```
+
+### Spacing & Layout Tokens
+```css
+--space-xs: 0.25rem;  --space-sm: 0.5rem;   --space-md: 1rem;
+--space-lg: 1.5rem;   --space-xl: 2.5rem;   --space-2xl: 4rem;
+--space-3xl: 6rem;    --space-4xl: 10rem;
+
+--radius-sm: 6px;   --radius-md: 14px;  --radius-lg: 24px;
+--radius-xl: 40px;  --radius-pill: 999px;
+
+--container-max:  1200px;
+--container-wide: 1440px;
+--gutter:         clamp(1.5rem, 5vw, 4rem);
+```
+
+Section padding minimum: `--space-3xl` top/bottom. Cards: `--radius-lg`. Everywhere else: round corners.
+
+### Component Patterns
+
+**Buttons**
+- Primary CTA: `--gradient-cta` background, pill shape, `box-shadow: 0 4px 20px rgba(232,116,138,0.35)`, lifts on hover
+- Secondary: transparent + `1.5px solid --color-rose`, pill shape
+- WhatsApp CTA: `#25D366` background, pill, always visible on mobile — this is the primary conversion action
+
+**Cards**
+- White background, `--radius-lg`, `box-shadow: 0 2px 20px rgba(0,0,0,0.06)`
+- Hover: `translateY(-6px)` + deeper shadow
+- Service card image ratio: 4:3
+
+**Section Eyebrows**
+- `--font-accent` (Dancing Script), `--color-rose`, small size, placed above serif headings
+
+**Navigation**
+- Logo left, links center/right
+- Transparent on hero → white + shadow on scroll
+- Mobile: hamburger + slide-in drawer
+- Sticky WhatsApp/Book Now button always visible
+
+### Page Structure
+
+| Section | Key Notes |
+|---|---|
+| **Hero** | Full viewport, `--gradient-hero` bg, Playfair Display italic H1, 2 CTAs (Book Now + View Gallery), floating balloon SVGs |
+| **Services** | 3-col grid (1-col mobile), 6 services: Birthday · Anniversary · Baby Shower · Ring Ceremony · Haldi · Office Events |
+| **Gallery** | Masonry or uniform grid, filterable by event type, hover overlay with event label |
+| **Testimonials** | Horizontal scroll/carousel, gold star ratings, reviewer name + event type + city |
+| **Footer** | 4-col: Logo/about · Services · Links · Contact; WhatsApp prominent; Address: 848, Sector 40, Gurgaon 122002 |
+
+### Contact & Conversion
+- **WhatsApp / Phone:** +91 95996 27056 (primary CTA — especially mobile)
+- **Email:** info@balloonnest.com
+- **Contact form fields:** Name · Phone · Event Type · Date · Message
+
+### BalloonNest Motion Rules
+- Balloon SVG elements: continuous gentle float — `translateY(0 → -18px)` + slight rotation, 3–4s loop
+- Section entries: staggered fade-up on scroll (IntersectionObserver), 0.6s ease, 30–50ms stagger
+- Cards: lift on hover (`translateY(-6px)`, 0.3s ease)
+- CTAs: soft pulse to draw attention (subtle scale or glow, looping)
+- All animations ≤ 0.7s. No jarring motion. Festive, not frantic.
+
+```css
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%       { transform: translateY(-18px) rotate(3deg); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+```
+
+### Copy Voice
+| Context | Tone |
+|---|---|
+| Hero headline | Warm, aspirational, slightly poetic |
+| Service descriptions | Friendly, reassuring, benefit-focused |
+| CTAs | Action-oriented but gentle ("Let's Celebrate Together") |
+| Testimonials | Authentic, specific, location-tagged |
+
+No em dashes. No corporate language. Celebrate Indian festivities specifically (Haldi, Ring Ceremony) — not only Western party references.
+
+Sample phrases: "Transform your celebration into a memory that lasts forever" · "Every balloon, placed with love" · "Serving Gurgaon, Delhi NCR & beyond"
+
+### SEO Pattern
+```html
+<title>[Service] Decoration in Gurgaon | BalloonNest</title>
+<meta name="description" content="[service-specific, location-tagged, benefit-led, under 155 chars]">
+```
+Primary keywords: `balloon decoration Gurgaon` · `birthday decoration Gurgaon` · `event decoration Gurgaon`
+
+### BalloonNest Do's and Don'ts
+| Do | Don't |
+|---|---|
+| Warm, pastel-forward palette from tokens above | Cold blues, harsh neons, or any color not in the token set |
+| Round corners everywhere (`--radius-lg` minimum) | Sharp/angular design elements |
+| Real event photography (warm-toned, vibrant) | Generic stock balloon images |
+| WhatsApp as primary mobile CTA | Relying solely on email forms |
+| Celebrate Indian festivities by name | Only Western party references |
+| Balloon float animation on decorative SVGs | Heavy animations that slow the page |
+| Serif/script fonts for headings (Playfair, Cormorant, Dancing Script) | Plain sans-serif headings |
+| Alt text: "Pink balloon arch for birthday party in Gurgaon" | Generic or missing alt text |
+
+---
+
 ## 0. READ THE BRIEF FIRST (Anti-Default Discipline)
 
 Before writing any code, output one line:
